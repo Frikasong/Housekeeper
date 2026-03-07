@@ -1,0 +1,70 @@
+=== LTB Tool Test Run 20260307_101132 ===
+Python 3.9.10 on Darwin 25.3.0
+Started: 2026-03-07T15:11:32.622129Z
+
+
+--- Category 1: Smoke Tests ---
+  [OK  ] SM-001   GET index page (12ms)
+  [OK  ] SM-002   GET evidence-stats (1ms)
+  [OK  ] SM-003   GET evidence-stats fallback (0ms)
+  [OK  ] SM-004   GET thumbnail 404 (0ms)
+  [OK  ] SM-005   POST generate no JSON body (0ms)
+
+--- Category 2: Upload Tests ---
+  [OK  ] UP-001   Upload PNG — unit hallway photo (46ms)
+  [OK  ] UP-002   Upload JPEG — water damage photo (26ms)
+  [OK  ] UP-003   Upload WEBP — broken latch photo (48ms)
+  [OK  ] UP-004   Upload large PNG (2000x2000 unit photo) (201ms)
+  [OK  ] UP-005   Upload PNG RGBA — transparent overlay (18ms)
+  [OK  ] UP-006   Multi-file upload (3 room photos) (31ms)
+  [OK  ] UP-007   Upload PDF — rent payment record (8ms)
+  [OK  ] UP-008   Upload PDF — inspection report with photo (11ms)
+  [OK  ] UP-009   Upload DOCX — demand letter (30ms)
+  [OK  ] UP-010   Upload Markdown — communication log (1ms)
+  [OK  ] UP-011   No files field (1ms)
+  [OK  ] UP-012   Corrupted JPEG upload (1ms)
+  [OK  ] UP-013   Upload GIF — door damage photo (18ms)
+  [OK  ] UP-014   Upload BMP — cracked tile photo (8ms)
+  [OK  ] UP-015   Upload TIFF — mold growth photo (9ms)
+  [OK  ] UP-016   Upload HEIC — carpet stain photo (104ms)
+
+--- Category 3: PDF Generation Tests ---
+  [OK  ] GEN-001  Minimal brief (empty tab) (16ms)
+  [OK  ] GEN-002  Single photo N4 brief (75ms)
+  [OK  ] GEN-003  Multi-photo tab (3 damage photos) (135ms)
+  [OK  ] GEN-004  Three evidence tabs N4 (74ms)
+  [OK  ] GEN-005  Five tabs stress (full evidence brief) (288ms)
+  [OK  ] GEN-006  N5 application brief (77ms)
+  [OK  ] GEN-007  DOCX demand letter in tab (381ms)
+  [OK  ] GEN-008  Rent payment PDF in tab (241ms)
+  [OK  ] GEN-009  Bad file IDs in tab (15ms)
+  [OK  ] GEN-010  GIF image in brief (44ms)
+  [OK  ] GEN-011  BMP image in brief (38ms)
+  [OK  ] GEN-012  TIFF image in brief (40ms)
+  [OK  ] GEN-013  Markdown file in brief (229ms)
+  [OK  ] GEN-014  HEIC image in brief (118ms)
+  [OK  ] GEN-015  All-formats mixed brief (975ms)
+
+--- Category 4: Evidence Analyzer — Case Splitting ---
+  [OK  ] EA-001   No case numbers (0ms)
+  [OK  ] EA-002   Single case number (0ms)
+  [OK  ] EA-003   Two case numbers (0ms)
+  [OK  ] EA-004   Block too small (< 50 chars) (0ms)
+  [OK  ] EA-005   Duplicate case IDs (0ms)
+  [OK  ] EA-006   AI-generated case ID (0ms)
+  [OK  ] EA-007   Normal chunking (0ms)
+  [OK  ] EA-008   Empty string chunking (0ms)
+
+--- Category 5: Evidence Analyzer — Aggregation ---
+  [OK  ] EA-009   Aggregate empty list (0ms)
+  [OK  ] EA-010   Aggregate normal (3 cases) (0ms)
+  [OK  ] EA-011   Aggregate uniform (5 identical) (0ms)
+
+--- Category 6: Semantic Tests (slow) ---
+  [OK  ] EA-012   Similarity hit (N4 text) (11559ms)
+  [OK  ] EA-013   Similarity miss (cooking recipe) (1449ms)
+
+============================================================
+TOTAL: 49  |  PASSED: 49  |  FAILED: 0  |  SKIPPED: 0
+Duration: 16.8s
+============================================================

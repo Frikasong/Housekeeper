@@ -5,6 +5,7 @@ import uuid
 import io
 import time
 import secrets
+import logging
 import subprocess
 from xml.sax.saxutils import escape as xml_escape
 from flask import Flask, request, jsonify, send_file, render_template
@@ -169,11 +170,18 @@ def _convert_office_to_pdf(file_path):
         return None
     try:
         outdir = app.config['UPLOAD_FOLDER']
+        # Use a unique user profile to avoid lock conflicts between workers
+        user_profile = os.path.join(outdir, 'lo_profile_%s' % uuid.uuid4().hex)
         subprocess.run(
-            [lo_cmd, '--headless', '--convert-to', 'pdf',
+            [lo_cmd, '--headless',
+             '-env:UserInstallation=file://' + user_profile,
+             '--convert-to', 'pdf',
              '--outdir', outdir, file_path],
             capture_output=True, timeout=120,
         )
+        # Clean up the temporary profile
+        import shutil
+        shutil.rmtree(user_profile, ignore_errors=True)
         base = os.path.splitext(os.path.basename(file_path))[0]
         out_path = os.path.join(outdir, base + '.pdf')
         if os.path.exists(out_path):
@@ -934,6 +942,7 @@ def generate():
             download_name=download_name,
         )
     except Exception as e:
+        logging.exception("PDF generation failed")
         return jsonify({'error': str(e)}), 500
 
 

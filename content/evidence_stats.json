@@ -1,0 +1,53 @@
+{
+  "N4": {
+    "description": "Non-payment of rent",
+    "total_cases_analyzed": 10,
+    "evidence_types": [
+      {
+        "category": "Government/third-party records (inspection reports, municipal notices)",
+        "percentage": 100,
+        "count": 10
+      },
+      {
+        "category": "Financial records (rent receipts, bank statements, rent ledger)",
+        "percentage": 100,
+        "count": 10
+      },
+      {
+        "category": "Payment history / transaction records",
+        "percentage": 80,
+        "count": 8
+      },
+      {
+        "category": "N4 Notice of Termination",
+        "percentage": 30,
+        "count": 3
+      },
+      {
+        "category": "Communication records (emails, text messages, letters)",
+        "percentage": 30,
+        "count": 3
+      },
+      {
+        "category": "Maintenance/repair requests or records",
+        "percentage": 30,
+        "count": 3
+      },
+      {
+        "category": "Legal documents (prior orders, court filings)",
+        "percentage": 20,
+        "count": 2
+      },
+      {
+        "category": "Lease agreement",
+        "percentage": 20,
+        "count": 2
+      },
+      {
+        "category": "Photos of unit conditions",
+        "percentage": 20,
+        "count": 2
+      }
+    ]
+  }
+}

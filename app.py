@@ -10,7 +10,7 @@ import subprocess
 from xml.sax.saxutils import escape as xml_escape
 from flask import Flask, request, jsonify, send_file, render_template
 from werkzeug.utils import secure_filename
-from PIL import Image
+from PIL import Image, ImageOps
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.units import inch
@@ -454,26 +454,11 @@ class TabDivider(Flowable):
 
         cx = self.width / 2
         cy = self.height / 2
-        rule_half_w = self.width * 0.35
 
-        # Thin rules flanking the text block
-        self.canv.setStrokeColor(colors.black)
-        self.canv.setLineWidth(0.5)
-        top_y = cy + 0.55 * inch
-        bot_y = cy - (0.45 * inch if self.tab_title else 0.15 * inch)
-        self.canv.line(cx - rule_half_w, top_y, cx + rule_half_w, top_y)
-        self.canv.line(cx - rule_half_w, bot_y, cx + rule_half_w, bot_y)
-
-        # "TAB N"
+        # "TAB N" centered on page — no lines, no description
         self.canv.setFillColor(colors.black)
         self.canv.setFont("Times-Bold", 28)
-        label_y = cy + (0.3 * inch if self.tab_title else 0.1 * inch)
-        self.canv.drawCentredString(cx, label_y, "TAB %d" % self.tab_number)
-
-        # Tab title
-        if self.tab_title:
-            self.canv.setFont("Times-Roman", 18)
-            self.canv.drawCentredString(cx, cy - 0.25 * inch, self.tab_title)
+        self.canv.drawCentredString(cx, cy, "TAB %d" % self.tab_number)
 
     def wrap(self, availWidth, availHeight):
         return self.width, self.height
@@ -856,6 +841,9 @@ def upload_files():
         is_image = False
         try:
             with Image.open(path) as img:
+                # Fix mobile photo rotation by applying EXIF orientation
+                img = ImageOps.exif_transpose(img)
+                img.save(path)
                 img.thumbnail((300, 300))
                 thumb_name = "thumb_%s" % fname
                 thumb_path = os.path.join(app.config['UPLOAD_FOLDER'], thumb_name)

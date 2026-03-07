@@ -701,7 +701,7 @@ class TestRunner:
             r = c.get("/")
             assert r.status_code == 200, f"Expected 200, got {r.status_code}"
             html = r.data.decode()
-            assert "LTB" in html or "Evidence" in html or "Brief" in html, "Page missing expected content"
+            assert "Housekeeper" in html or "LTB" in html or "Evidence" in html, "Page missing expected content"
             return {"detail": f"status={r.status_code} content_length={len(html)}"}
 
         self._run_test("SM-001", "smoke", "GET index page",

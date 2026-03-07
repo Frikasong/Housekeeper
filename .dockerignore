@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+test_ltb_tool.py
+test_samples/
+test_logs/
+TEST_EXPLANATION.md
+LTB_Tool_Development_Report.md
+archive/
+data/
+content/
+uploads/*
+*.ipynb
+.DS_Store
+.git/
+.claude/

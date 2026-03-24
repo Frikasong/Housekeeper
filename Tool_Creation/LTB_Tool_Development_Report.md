@@ -527,3 +527,75 @@ python3 test_ltb_tool.py --include-slow  # All tests including semantic model (~
 ```
 
 Output goes to `test_logs/test_run_YYYYMMDD_HHMMSS.json` and `.txt`.
+
+---
+
+### v2.0 — UX & Guidance Overhaul
+
+**Informational guidance:**
+- Added collapsible info boxes (open by default) on all 4 steps with contextual LTB-specific advice
+- Step 1: "What is an Evidence Brief?" box explains page-number referencing and the Table of Contents
+- Step 2: "Tips for strong evidence" box with file format and redaction guidance
+- Step 4: "Attending your LTB Hearing — what to expect" box with Zoom join instructions, Tribunals Ontario Portal submission, and page-number reference example
+
+**Evidence checklist & suggestion chips:**
+- Evidence stats panel heading updated to "Evidence Checklist: What Adjudicators Commonly See"
+- Suggestion chips on Step 1 (case type → suggested tab names) and Step 3 (quick-add to tabs)
+- Chips remain blue and clickable after use (`chip-added` state, not disabled)
+- Clicking an already-added chip focuses the existing tab instead of creating a duplicate
+- N5 case type now shows a visible 🚧 under-construction panel instead of silently hiding
+
+**Validated navigation:**
+- Step "Next" buttons replaced with validation-aware functions (`nextFromStep0`, `proceedToTabs`, `nextFromStep2`)
+- Header step buttons (1–4) now route through the same validation via `stepNavClick()` — forward jumps show warnings, backward jumps are always free
+- Warning modal (`showWarning`) with "← Go Back" / "Skip & Continue →" options applied to all three forward transitions
+
+**Hearing tips corrections:**
+- All evidence references updated from tab number to **page number** across Step 1 info box, Step 4 hearing tips, and redact instructions
+- Portal name corrected to "Tribunals Ontario Portal" (was "Ontario Tribunals Portal")
+- Removed "do not" language; tips rewritten in positive/suggestive tone
+- Hearing tips reflect online-only Zoom format — no printed copies required
+
+**Redact instructions:**
+- Step 2 upload tip now explains redaction is in Step 4, with concrete examples (SIN, bank numbers)
+- Step 4 files label updated to "permanently black out sensitive details before generating your PDF"
+- Redact modal hint rewritten as step-by-step instructions including undo, multi-page note, and permanence warning
+
+---
+
+### v2.1 — Redaction Feature
+
+**Canvas-based image redaction:**
+- `openRedactModal(fileId)` opens a modal with the image rendered on an HTML5 Canvas
+- Click-and-drag draws black redaction boxes; multiple boxes supported per image
+- `undoLastRedaction()` removes the most recent box
+- `saveRedaction()` posts the canvas blob to `POST /redact` on the server
+- Server overwrites the original uploaded file and regenerates its thumbnail
+- Cache-busted thumbnail URLs ensure the redacted version shows immediately in the UI
+
+**All-file-type redaction (Step 4 review):**
+- `GET /preview-pages/<filename>` endpoint converts any uploaded file to page images using the existing `convert_document_to_images` pipeline, returns page IDs
+- Step 4 "Files" grid shows all files across all tabs with ✂ Redact buttons
+- Redact modal extended with page navigation (Prev/Next, page counter) for multi-page documents
+- Per-page redaction box state tracked in `redactPageBoxes` dictionary
+- `POST /generate` accepts `preview_pages` mapping so pre-redacted document page images are used directly in PDF generation instead of re-converting
+
+---
+
+### v2.2 — About, Contact & Feedback
+
+- **About modal** — accessible from header nav; introduces the project, explains the workflow, and lists the team with contact emails
+- **Contact modal** — accessible from header nav; lists team emails and includes an inline feedback textarea that opens a mailto link pre-filled with the user's message
+- **Post-generation feedback prompt** — appears in Step 4 after a successful PDF download; collects open-ended feedback and submits via mailto
+- **Header navigation** — "About" and "Contact" buttons added to the header (right side)
+
+---
+
+### v2.3 — Deployment & Repository Restructure
+
+- All source files moved from repo root into `Tool_Creation/01.local app version/` (organised with numbered subfolders)
+- `Dockerfile`, `requirements.txt`, `gunicorn.conf.py` added to the app subfolder
+- `render.yaml` added at repo root (specifies Docker build context and Dockerfile path)
+- Root-level `Dockerfile` added as fallback since Render reads from repo root by default
+- `.gitignore` added to exclude `uploads/`, `__pycache__/`, `.DS_Store`, and Jupyter checkpoints
+- Jupyter notebook intro cell replaced with full how-to-use guide covering: hosted web app (Render link), Colab/ngrok setup, local Python setup, 4-step app workflow, and hearing tips

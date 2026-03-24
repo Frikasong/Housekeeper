@@ -1067,6 +1067,146 @@
     .form-grid { grid-template-columns: 1fr; }
     .tabs-layout { grid-template-columns: 1fr; }
   }
+
+  /* HEADER NAV */
+  .header-nav {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-nav-btn {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .header-nav-btn:hover { background: rgba(255,255,255,0.2); color: white; }
+
+  /* ABOUT / CONTACT MODAL */
+  .info-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .info-modal-box {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 36px 40px;
+    position: relative;
+  }
+  .info-modal-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--text-light);
+    line-height: 1;
+  }
+  .info-modal-close:hover { color: var(--navy); }
+  .info-modal-box h2 {
+    font-family: 'Source Serif 4', serif;
+    color: var(--navy);
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+  .info-modal-box h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 20px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .info-modal-box p, .info-modal-box li {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .info-modal-box ul { padding-left: 18px; margin-top: 6px; }
+  .team-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+  }
+  .team-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .team-name { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
+  .team-email { font-size: 0.82rem; color: var(--text-light); margin-top: 2px; }
+
+  /* CONTACT FORM */
+  .contact-form textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    resize: vertical;
+    margin-top: 8px;
+  }
+  .contact-form textarea:focus { outline: none; border-color: var(--navy); }
+
+  /* POST-GENERATION FEEDBACK */
+  .feedback-prompt {
+    margin-top: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    background: rgba(26,58,92,0.03);
+    text-align: left;
+  }
+  .feedback-prompt h4 {
+    font-family: 'Source Serif 4', serif;
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .feedback-prompt p { font-size: 0.84rem; color: var(--text-light); margin-bottom: 12px; }
+  .feedback-prompt textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text);
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  .feedback-prompt textarea:focus { outline: none; border-color: var(--navy); }
+  .feedback-sent { font-size: 0.85rem; color: var(--success); font-weight: 500; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -1078,6 +1218,10 @@
       <h1>Housekeeper</h1>
       <p>Landlord and Tenant Board — Hearing Preparation Tool</p>
     </div>
+    <nav class="header-nav">
+      <button class="header-nav-btn" onclick="openAbout()">About</button>
+      <button class="header-nav-btn" onclick="openContact()">Contact</button>
+    </nav>
   </div>
 </header>
 
@@ -1482,6 +1626,13 @@
         </button>
         <div class="spinner" id="spinner"></div>
         <p id="gen-status" style="margin-top:12px;display:none;"></p>
+        <div id="feedback-prompt" class="feedback-prompt" style="display:none">
+          <h4>How was your experience?</h4>
+          <p>Your feedback helps us improve Housekeeper for everyone.</p>
+          <textarea id="feedback-text" placeholder="What worked well? What could be better?"></textarea>
+          <button class="btn btn-outline" onclick="submitFeedback()" style="font-size:0.85rem;padding:8px 20px;">Send Feedback</button>
+          <p class="feedback-sent" id="feedback-sent" style="display:none">✓ Thank you — your feedback has been sent!</p>
+        </div>
       </div>
     </div>
 
@@ -1491,6 +1642,72 @@
   </div>
 
 </main>
+
+<!-- About Modal -->
+<div id="about-modal" class="info-modal-overlay" style="display:none" onclick="handleAboutOverlayClick(event)">
+  <div class="info-modal-box" onclick="event.stopPropagation()">
+    <button class="info-modal-close" onclick="closeAbout()">✕</button>
+    <h2>About Housekeeper</h2>
+    <p>Housekeeper is a free, open-source web tool that helps tenants prepare professional evidence briefs for <strong>Ontario Landlord and Tenant Board (LTB)</strong> hearings.</p>
+    <p style="margin-top:10px;">Upload your evidence files — photos, PDFs, Word documents, spreadsheets, or iPhone HEIC images — organize them into numbered tabs, and generate a court-ready PDF with a title page, table of contents, tab dividers, and properly numbered pages.</p>
+    <h3>Why We Built This</h3>
+    <p>LTB hearings can be stressful and unfamiliar for tenants who are representing themselves. Organizing evidence in a format adjudicators expect — and knowing how to present it confidently — makes a real difference. We built Housekeeper to lower that barrier.</p>
+    <h3>How It Works</h3>
+    <ul>
+      <li>Enter your case information and case type (N4/N5)</li>
+      <li>Upload your evidence files in any common format</li>
+      <li>Organize files into labelled tabs matching evidence categories</li>
+      <li>Redact any sensitive information before generating</li>
+      <li>Download a court-ready Evidence Brief PDF, ready to submit through the Tribunals Ontario Portal</li>
+    </ul>
+    <h3>The Team</h3>
+    <div class="team-card">
+      <div class="team-avatar">FY</div>
+      <div>
+        <div class="team-name">Fukun Yang</div>
+        <div class="team-email">📧 <a href="mailto:fukun.yang@placeholder.com" style="color:var(--navy);">fukun.yang@placeholder.com</a></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AX</div>
+      <div>
+        <div class="team-name">Angel Xing</div>
+        <div class="team-email">📧 <a href="mailto:angel.xing@placeholder.com" style="color:var(--navy);">angel.xing@placeholder.com</a></div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:0.8rem;color:var(--text-light);">This tool provides document organization assistance only. It is not legal advice.</p>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div id="contact-modal" class="info-modal-overlay" style="display:none" onclick="handleContactOverlayClick(event)">
+  <div class="info-modal-box" onclick="event.stopPropagation()">
+    <button class="info-modal-close" onclick="closeContact()">✕</button>
+    <h2>Contact Us</h2>
+    <p>Have a question, found a bug, or want to suggest a feature? We'd love to hear from you.</p>
+    <h3>Reach Us Directly</h3>
+    <div class="team-card">
+      <div class="team-avatar">FY</div>
+      <div>
+        <div class="team-name">Fukun Yang</div>
+        <div class="team-email">📧 <a href="mailto:fukun.yang@placeholder.com" style="color:var(--navy);">fukun.yang@placeholder.com</a></div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">AX</div>
+      <div>
+        <div class="team-name">Angel Xing</div>
+        <div class="team-email">📧 <a href="mailto:angel.xing@placeholder.com" style="color:var(--navy);">angel.xing@placeholder.com</a></div>
+      </div>
+    </div>
+    <h3 style="margin-top:20px;">Send Feedback</h3>
+    <p>Leave a note below — it will open your email client with your message pre-filled.</p>
+    <div class="contact-form">
+      <textarea id="contact-feedback-text" placeholder="Your feedback or question…"></textarea>
+      <button class="btn btn-primary" onclick="submitContactFeedback()" style="margin-top:10px;font-size:0.85rem;padding:8px 20px;">Send via Email</button>
+    </div>
+  </div>
+</div>
 
 <!-- Warning Modal -->
 <div id="warn-modal" class="warn-modal-overlay" style="display:none">
@@ -2408,6 +2625,7 @@ async function generatePDF() {
     status.textContent = '✓ PDF downloaded successfully!';
     status.style.color = 'var(--success)';
     notify('✓ Evidence Brief generated!');
+    document.getElementById('feedback-prompt').style.display = 'block';
   } catch (e) {
     status.textContent = 'Error: ' + e.message;
     status.style.color = 'var(--danger)';
@@ -2416,6 +2634,29 @@ async function generatePDF() {
     btn.disabled = false;
     spinner.style.display = 'none';
   }
+}
+
+// ─── ABOUT / CONTACT MODALS ──────────────────────────────────────────────────
+function openAbout() { document.getElementById('about-modal').style.display = 'flex'; }
+function closeAbout() { document.getElementById('about-modal').style.display = 'none'; }
+function handleAboutOverlayClick(e) { if (e.target === document.getElementById('about-modal')) closeAbout(); }
+
+function openContact() { document.getElementById('contact-modal').style.display = 'flex'; }
+function closeContact() { document.getElementById('contact-modal').style.display = 'none'; }
+function handleContactOverlayClick(e) { if (e.target === document.getElementById('contact-modal')) closeContact(); }
+
+function submitContactFeedback() {
+  const text = document.getElementById('contact-feedback-text').value.trim();
+  if (!text) return;
+  window.location.href = 'mailto:fukun.yang@placeholder.com?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(text);
+}
+
+// ─── POST-GENERATION FEEDBACK ─────────────────────────────────────────────────
+function submitFeedback() {
+  const text = document.getElementById('feedback-text').value.trim();
+  if (!text) { return; }
+  window.location.href = 'mailto:fukun.yang@placeholder.com?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(text);
+  document.getElementById('feedback-sent').style.display = 'block';
 }
 </script>
 </body>

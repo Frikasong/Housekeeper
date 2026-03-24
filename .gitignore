@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Uploads / generated files (runtime data, not source)
+**/uploads/
+**/01.local app version/uploads/
+
+# Claude Code settings (local only)
+**/.claude/settings.local.json
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/

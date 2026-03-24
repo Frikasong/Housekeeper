@@ -2647,22 +2647,51 @@ function openContact() { document.getElementById('contact-modal').style.display 
 function closeContact() { document.getElementById('contact-modal').style.display = 'none'; }
 function handleContactOverlayClick(e) { if (e.target === document.getElementById('contact-modal')) closeContact(); }
 
-function submitContactFeedback() {
+async function _postToFormspree(message, email) {
+  const payload = { message };
+  if (email) payload.email = email;
+  const res = await fetch('https://formspree.io/f/xnjgezqr', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error('Submission failed');
+}
+
+async function submitContactFeedback() {
   const text = document.getElementById('contact-feedback-text').value.trim();
   if (!text) return;
   const sender = document.getElementById('contact-sender-email').value.trim();
-  const body = sender ? 'From: ' + sender + '\n\n' + text : text;
-  window.location.href = 'mailto:fukunyang2024@osgoode.yorku.ca?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(body);
+  const btn = document.querySelector('#contact-modal .btn-primary');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    await _postToFormspree(text, sender);
+    btn.textContent = '✓ Sent — thank you!';
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Send via Email';
+    notify('Could not send feedback — please email us directly.', true);
+  }
 }
 
 // ─── POST-GENERATION FEEDBACK ─────────────────────────────────────────────────
-function submitFeedback() {
+async function submitFeedback() {
   const text = document.getElementById('feedback-text').value.trim();
   if (!text) return;
   const sender = document.getElementById('feedback-sender-email').value.trim();
-  const body = sender ? 'From: ' + sender + '\n\n' + text : text;
-  window.location.href = 'mailto:fukunyang2024@osgoode.yorku.ca?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(body);
-  document.getElementById('feedback-sent').style.display = 'block';
+  const btn = document.querySelector('#feedback-prompt .btn-outline');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  try {
+    await _postToFormspree(text, sender);
+    document.getElementById('feedback-sent').style.display = 'block';
+    btn.textContent = '✓ Sent';
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Send Feedback';
+    notify('Could not send feedback — please try again.', true);
+  }
 }
 </script>
 </body>

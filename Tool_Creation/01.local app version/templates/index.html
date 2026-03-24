@@ -1068,6 +1068,61 @@
     .tabs-layout { grid-template-columns: 1fr; }
   }
 
+  /* PDF PREVIEW MODAL */
+  .pdf-preview-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 3000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .pdf-preview-box {
+    background: var(--navy);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 860px;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  }
+  .pdf-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    flex-shrink: 0;
+  }
+  .pdf-preview-header span {
+    color: white;
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+  .pdf-preview-actions { display: flex; gap: 8px; }
+  .pdf-preview-actions button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 600;
+    padding: 7px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .pdf-preview-actions button:hover { opacity: 0.85; }
+  .btn-pdf-download { background: var(--gold); color: var(--navy); }
+  .btn-pdf-close { background: rgba(255,255,255,0.15); color: white; }
+  .pdf-preview-iframe {
+    flex: 1;
+    border: none;
+    background: #525659;
+  }
+
   /* HEADER NAV */
   .header-nav {
     margin-left: auto;
@@ -1744,6 +1799,20 @@
   </div>
 </div>
 
+<!-- PDF Preview Modal -->
+<div id="pdf-preview-modal" class="pdf-preview-overlay" style="display:none">
+  <div class="pdf-preview-box">
+    <div class="pdf-preview-header">
+      <span>📄 Evidence Brief Preview</span>
+      <div class="pdf-preview-actions">
+        <button class="btn-pdf-download" onclick="downloadCurrentPDF()">⬇ Download PDF</button>
+        <button class="btn-pdf-close" onclick="closePDFPreview()">✕ Close</button>
+      </div>
+    </div>
+    <iframe id="pdf-preview-iframe" class="pdf-preview-iframe" title="Evidence Brief Preview"></iframe>
+  </div>
+</div>
+
 <!-- Warning Modal -->
 <div id="warn-modal" class="warn-modal-overlay" style="display:none">
   <div class="warn-modal-box">
@@ -1791,6 +1860,8 @@ let selectedTabId = null;
 let previewPagesCache = {};   // fileId → {pages:[...], thumbs:[...]}
 let redactPageBoxes = {};     // pageId → [{x,y,w,h},...] per-page box state
 let currentRedactPages = [];  // page IDs for current doc (or [fileId] for images)
+let _currentPDFBlobURL = null;
+let _currentPDFFilename = 'Evidence_Brief.pdf';
 let currentRedactPageIndex = 0;
 let currentStep = 0;
 
@@ -2133,6 +2204,8 @@ function deleteTab(id, e) {
   tabs = tabs.filter(t => t.id !== id);
   if (selectedTabId === id) selectedTabId = tabs.length ? tabs[tabs.length - 1].id : null;
   renderTabPanel();
+  renderSuggestionChips();
+  updateStep3SuggestionPanel();
 }
 
 function selectTab(id) {
@@ -2222,6 +2295,26 @@ function tab_title_update(val) {
   if (items[idx]) {
     items[idx].querySelector('.tab-name').textContent = val || `Tab ${idx+1}`;
   }
+  renderSuggestionChips();
+  updateStep3SuggestionPanel();
+}
+
+// ─── PDF PREVIEW ──────────────────────────────────────────────────────────────
+function downloadCurrentPDF() {
+  if (!_currentPDFBlobURL) return;
+  const a = document.createElement('a');
+  a.href = _currentPDFBlobURL;
+  a.download = _currentPDFFilename;
+  a.click();
+  document.getElementById('feedback-prompt').style.display = 'block';
+  document.getElementById('gen-status').textContent = '✓ PDF downloaded successfully!';
+  document.getElementById('gen-status').style.color = 'var(--success)';
+  notify('✓ Evidence Brief downloaded!');
+}
+
+function closePDFPreview() {
+  document.getElementById('pdf-preview-modal').style.display = 'none';
+  document.getElementById('pdf-preview-iframe').src = '';
 }
 
 function renderPoolGrid() {
@@ -2650,17 +2743,17 @@ async function generatePDF() {
     }
 
     const blob = await res.blob();
+    _currentPDFBlob = blob;
+    _currentPDFFilename = `Evidence_Brief_${payload.case_info.file_number || 'LTB'}.pdf`;
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Evidence_Brief_${payload.case_info.file_number || 'LTB'}.pdf`;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (_currentPDFBlobURL) URL.revokeObjectURL(_currentPDFBlobURL);
+    _currentPDFBlobURL = url;
+    document.getElementById('pdf-preview-iframe').src = url;
+    document.getElementById('pdf-preview-modal').style.display = 'flex';
 
-    status.textContent = '✓ PDF downloaded successfully!';
+    status.textContent = '✓ Preview ready — download when satisfied.';
     status.style.color = 'var(--success)';
-    notify('✓ Evidence Brief generated!');
-    document.getElementById('feedback-prompt').style.display = 'block';
+    notify('✓ Evidence Brief ready to preview!');
   } catch (e) {
     status.textContent = 'Error: ' + e.message;
     status.style.color = 'var(--danger)';

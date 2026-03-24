@@ -1629,6 +1629,7 @@
         <div id="feedback-prompt" class="feedback-prompt" style="display:none">
           <h4>How was your experience?</h4>
           <p>Your feedback helps us improve Housekeeper for everyone.</p>
+          <input type="email" id="feedback-sender-email" placeholder="Your email (optional — so we can follow up)" style="width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--text);margin-bottom:8px;">
           <textarea id="feedback-text" placeholder="What worked well? What could be better?"></textarea>
           <button class="btn btn-outline" onclick="submitFeedback()" style="font-size:0.85rem;padding:8px 20px;">Send Feedback</button>
           <p class="feedback-sent" id="feedback-sent" style="display:none">✓ Thank you — your feedback has been sent!</p>
@@ -1665,14 +1666,14 @@
       <div class="team-avatar">FY</div>
       <div>
         <div class="team-name">Fukun Yang</div>
-        <div class="team-email">📧 <a href="mailto:fukun.yang@placeholder.com" style="color:var(--navy);">fukun.yang@placeholder.com</a></div>
+        <div class="team-email">📧 <a href="mailto:fukunyang2024@osgoode.yorku.ca" style="color:var(--navy);">fukunyang2024@osgoode.yorku.ca</a></div>
       </div>
     </div>
     <div class="team-card">
       <div class="team-avatar">AX</div>
       <div>
         <div class="team-name">Angel Xing</div>
-        <div class="team-email">📧 <a href="mailto:angel.xing@placeholder.com" style="color:var(--navy);">angel.xing@placeholder.com</a></div>
+        <div class="team-email">📧 <a href="mailto:angelxing2024@osgoode.yorku.ca" style="color:var(--navy);">angelxing2024@osgoode.yorku.ca</a></div>
       </div>
     </div>
     <p style="margin-top:20px;font-size:0.8rem;color:var(--text-light);">This tool provides document organization assistance only. It is not legal advice.</p>
@@ -1690,19 +1691,20 @@
       <div class="team-avatar">FY</div>
       <div>
         <div class="team-name">Fukun Yang</div>
-        <div class="team-email">📧 <a href="mailto:fukun.yang@placeholder.com" style="color:var(--navy);">fukun.yang@placeholder.com</a></div>
+        <div class="team-email">📧 <a href="mailto:fukunyang2024@osgoode.yorku.ca" style="color:var(--navy);">fukunyang2024@osgoode.yorku.ca</a></div>
       </div>
     </div>
     <div class="team-card">
       <div class="team-avatar">AX</div>
       <div>
         <div class="team-name">Angel Xing</div>
-        <div class="team-email">📧 <a href="mailto:angel.xing@placeholder.com" style="color:var(--navy);">angel.xing@placeholder.com</a></div>
+        <div class="team-email">📧 <a href="mailto:angelxing2024@osgoode.yorku.ca" style="color:var(--navy);">angelxing2024@osgoode.yorku.ca</a></div>
       </div>
     </div>
     <h3 style="margin-top:20px;">Send Feedback</h3>
     <p>Leave a note below — it will open your email client with your message pre-filled.</p>
     <div class="contact-form">
+      <input type="email" id="contact-sender-email" placeholder="Your email (optional — so we can reply)" style="width:100%;padding:9px 14px;border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--text);margin-bottom:8px;">
       <textarea id="contact-feedback-text" placeholder="Your feedback or question…"></textarea>
       <button class="btn btn-primary" onclick="submitContactFeedback()" style="margin-top:10px;font-size:0.85rem;padding:8px 20px;">Send via Email</button>
     </div>
@@ -2648,14 +2650,18 @@ function handleContactOverlayClick(e) { if (e.target === document.getElementById
 function submitContactFeedback() {
   const text = document.getElementById('contact-feedback-text').value.trim();
   if (!text) return;
-  window.location.href = 'mailto:fukun.yang@placeholder.com?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(text);
+  const sender = document.getElementById('contact-sender-email').value.trim();
+  const body = sender ? 'From: ' + sender + '\n\n' + text : text;
+  window.location.href = 'mailto:fukunyang2024@osgoode.yorku.ca?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(body);
 }
 
 // ─── POST-GENERATION FEEDBACK ─────────────────────────────────────────────────
 function submitFeedback() {
   const text = document.getElementById('feedback-text').value.trim();
-  if (!text) { return; }
-  window.location.href = 'mailto:fukun.yang@placeholder.com?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(text);
+  if (!text) return;
+  const sender = document.getElementById('feedback-sender-email').value.trim();
+  const body = sender ? 'From: ' + sender + '\n\n' + text : text;
+  window.location.href = 'mailto:fukunyang2024@osgoode.yorku.ca?subject=Housekeeper%20Feedback&body=' + encodeURIComponent(body);
   document.getElementById('feedback-sent').style.display = 'block';
 }
 </script>

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: housekeeper
+    runtime: docker
+    dockerfilePath: "Tool_Creation/01.local app version/Dockerfile"
+    dockerContext: "Tool_Creation/01.local app version"
+    envVars:
+      - key: PORT
+        value: 10000

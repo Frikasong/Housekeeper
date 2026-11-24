@@ -15,6 +15,8 @@ COPY ["Tool_Creation/01.local app version/requirements.txt", "."]
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ["Tool_Creation/01.local app version/app.py", \
+      "Tool_Creation/01.local app version/hearing_prep.py", \
+      "Tool_Creation/01.local app version/ltb_guidance.json", \
       "Tool_Creation/01.local app version/evidence_stats.json", \
       "Tool_Creation/01.local app version/gunicorn.conf.py", "./"]
 COPY ["Tool_Creation/01.local app version/templates/", "templates/"]

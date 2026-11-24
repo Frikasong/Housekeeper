@@ -1,0 +1,400 @@
+{
+  "version": 2,
+  "source": "LTB orders from A2AJ Canadian Legal Data (Open Government Licence – Ontario). Not legal advice.",
+  "case_types": {
+    "N4": {
+      "label": "N4 / L1 – Landlord says rent is owed",
+      "board_decides": [
+        "Was the N4 notice valid, and did you pay everything owing before its termination date? Paying in full by that date voids the notice.",
+        "How much is owed, including rent that came due after the application was filed.",
+        "Under section 83, whether it would be unfair to evict you: refuse the eviction, delay it, or make it conditional on a payment plan."
+      ],
+      "items": [
+        {
+          "id": "proof_of_payments",
+          "tab_name": "Rent Payments Made",
+          "label": "Proof of every payment you made",
+          "why": "The Board works out the arrears from both sides' records. E-transfer confirmations, receipts and bank statements let you challenge the landlord's ledger.",
+          "documents": [
+            "E-transfer confirmations",
+            "Rent receipts",
+            "Bank statements showing rent paid"
+          ],
+          "evidence_key": "bank_records",
+          "examples": []
+        },
+        {
+          "id": "income_and_budget",
+          "tab_name": "Income and Monthly Budget",
+          "label": "Proof of income and expenses, if you will ask for a payment plan",
+          "why": "Members often refuse a payment plan when the tenant has no documents showing it is affordable. Pay stubs, benefit statements and a simple monthly budget make the plan believable.",
+          "documents": [
+            "Pay stubs or an employment letter",
+            "ODSP / Ontario Works / CPP / EI statements",
+            "Bank statements",
+            "A monthly budget (Housekeeper can build one)"
+          ],
+          "evidence_key": "income_proof",
+          "examples": [
+            {
+              "file_number": "LTB-L-034540-26",
+              "citation": "2026 ONLTB 58076",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000151tOxIAI/LTB-L-034540-26-HR%20-%20July%2031%202026.pdf",
+              "excerpt": "The Landlord's legal representative's position is that the Tenant has not provided sufficient documentary evidence to substantiate her employment or her monthly income."
+            },
+            {
+              "file_number": "LTB-L-035530-26",
+              "citation": "2026 ONLTB 59201",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N300001531gxIAA/LTB-L-035530-26.pdf",
+              "excerpt": "I am not persuaded the Tenant would be able to commit to a payment plan, as in this case the Tenant led no documentary evidence to support her testimony regarding either her self employment income or her"
+            }
+          ]
+        },
+        {
+          "id": "household_circumstances",
+          "tab_name": "Household Circumstances",
+          "label": "Your household circumstances (section 83)",
+          "why": "Children, disability or health issues, benefits income, how long you have lived there, and how hard it is to find another home can lead the Board to delay or refuse an eviction. Documents make these facts easier to accept.",
+          "documents": [
+            "Medical or disability letters",
+            "Proof of benefits",
+            "Records of your housing search",
+            "School or childcare information"
+          ],
+          "evidence_key": "benefit_records",
+          "examples": [
+            {
+              "file_number": "LTB-L-044669-26",
+              "citation": "LTB-L-044669-26",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000151d0kIAA/LTB-L-044669-26-HR.pdf",
+              "excerpt": "RR testified the source of income for his household is the $2,103.00 he receives monthly from ODSP."
+            },
+            {
+              "file_number": "LTB-L-026616-26",
+              "citation": "LTB-L-026616-26",
+              "date": "2026-07-29",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014a2TxIAI/LTB-L-026616-26-HR%20-%20July%2029%202026.pdf",
+              "excerpt": "Relief from Eviction 10. The Tenant receives monthly benefits from the Ontario Disability Support Program (ODSP) who pays a portion of the rent, approximately $500.00, directly to the Landlord."
+            }
+          ]
+        },
+        {
+          "id": "repair_issues_s82",
+          "tab_name": "Repair Issues (s.82) and Notice Given",
+          "label": "Repair problems you want to raise (section 82) – give notice in writing first",
+          "why": "In a rent arrears hearing you can raise the landlord's maintenance failures, but only if you gave the landlord and the LTB a written description of each issue and copies of your evidence before the hearing. The Notice of Hearing package says at least 7 days before. Without that, members often refuse to hear the issues.",
+          "documents": [
+            "Written description of each issue (Housekeeper can draft it)",
+            "Dated photos or videos",
+            "Your written repair requests to the landlord",
+            "Proof you sent the disclosure, with the date"
+          ],
+          "evidence_key": "written_requests",
+          "examples": [
+            {
+              "file_number": "LTB-L-047053-26",
+              "citation": "2026 ONLTB 59204",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000152VPNIA2/LTB-L-047053-26-HR.pdf",
+              "excerpt": "The Tenant disputed the arrears based on issues which could have been raised under section 82(1) of the Residential Tenancies Act (2006) (the ‘Act')."
+            },
+            {
+              "file_number": "LTB-L-040954-26",
+              "citation": "LTB-L-040954-26",
+              "date": "2026-07-30",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N300001532A0IAI/LTB-L-040954-26-RV%20-%20July%2030%202026.pdf",
+              "excerpt": "Rule 19.4 of the Board's Rules of Procedure and further did not file their own application or have an order from the LTB granting the Tenant a rent abatement. 5."
+            }
+          ]
+        },
+        {
+          "id": "serious_breach_s83_3",
+          "tab_name": "Landlord's Serious Breach – Evidence",
+          "label": "If the landlord is in serious breach (section 83(3)(a)): corroborating evidence",
+          "why": "If the landlord is in serious breach of their obligations, the Board must refuse the eviction. Members want evidence beyond your own testimony: photos, technician or inspection reports, utility records, and messages to the landlord.",
+          "documents": [
+            "Photos and videos with dates",
+            "Municipal property standards or inspection reports",
+            "Technician or contractor reports",
+            "Utility records",
+            "Messages reporting the problem"
+          ],
+          "evidence_key": "inspection_reports",
+          "examples": [
+            {
+              "file_number": "LTB-L-077040-24",
+              "citation": "2026 ONLTB 58794",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000155NF8IAM/LTB-L-077040-24-RV%20-%20July%2031%202026.pdf",
+              "excerpt": "The Tenant now seeks to engage section 83(3)(a) of the Act, requiring the Board (if satisfied that the Landlord is in serious breach) to mandatorily deny eviction."
+            },
+            {
+              "file_number": "LTB-L-035530-26",
+              "citation": "2026 ONLTB 59201",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N300001531gxIAA/LTB-L-035530-26.pdf",
+              "excerpt": "Section 83(3)(a) of the Act states that where a Landlord is in serious breach of their responsibilities of the Act, the Board must mandatorily refuse eviction."
+            }
+          ]
+        },
+        {
+          "id": "attend_and_get_advice",
+          "tab_name": null,
+          "label": "Attend the hearing, and speak to Tenant Duty Counsel first",
+          "why": "If you do not attend, the hearing goes ahead on the landlord's evidence alone. Tenant Duty Counsel gives free legal advice to tenants on the day of the hearing.",
+          "documents": [],
+          "examples": [
+            {
+              "file_number": "LTB-L-020849-26",
+              "citation": "LTB-L-020849-26",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014x33vIAA/LTB-L-020849-26_HR-Cert.pdf",
+              "excerpt": "Prior to mediation, the Tenant did not utilize the services of Tenant Duty Counsel. The parties agreed that: 1. As of the hearing date, the Tenant was still in possession of the rental unit. 2."
+            },
+            {
+              "file_number": "LTB-T-000711-26",
+              "citation": "LTB-T-000711-26",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000156a3tIAA/LTB%20Order_LTB-T-000711-26_31JUL26.pdf",
+              "excerpt": "The Tenant also consulted with Tenant Duty Counsel prior to the mediation. The parties mutually agreed to resolve all matters at issue in the application and requested an order on consent."
+            }
+          ]
+        }
+      ]
+    },
+    "N5": {
+      "label": "N5 / L2 – Landlord alleges interference or damage",
+      "board_decides": [
+        "Did the conduct described in the N5 happen, and was it serious enough?",
+        "For a first N5: did you void it by stopping the conduct (or paying for or repairing the damage) within 7 days?",
+        "Under section 83, whether eviction would be unfair in your circumstances."
+      ],
+      "items": [
+        {
+          "id": "your_account",
+          "tab_name": "Response to N5 Allegations",
+          "label": "Your account of each incident in the N5",
+          "why": "The landlord must prove the conduct. A dated account of each incident, with messages or witness names, lets you dispute what did not happen.",
+          "documents": [
+            "A dated timeline of each incident",
+            "Messages with the landlord or neighbours",
+            "Names of witnesses who can attend"
+          ],
+          "evidence_key": "written_requests",
+          "examples": [
+            {
+              "file_number": "LTB-L-018130-26",
+              "citation": "LTB-L-018130-26",
+              "date": "2026-07-31",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014ljtKIAQ/LTB-L-018130-26.pdf",
+              "excerpt": "The Landlord's agent testified that the Tenants did not void the N5 notice."
+            },
+            {
+              "file_number": "LTB-L-033228-24",
+              "citation": "2026 ONLTB 59550",
+              "date": "2026-07-30",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N30000156xbZIAQ/LTB-L-033228-24-RV%20certified.pdf",
+              "excerpt": "Because the Landlords did not give any evidence that the N5 notice was not voided and consequently the Member found that the N5 notice was voided, any evidence about these disturbances would have been"
+            }
+          ]
+        },
+        {
+          "id": "stopped_or_repaired",
+          "tab_name": "Proof the Conduct Stopped / Damage Repaired",
+          "label": "Proof you stopped the conduct or fixed the damage in time",
+          "why": "A first N5 is void if the tenant stops the conduct, or pays for or repairs the damage, within 7 days.",
+          "documents": [
+            "Dated photos after the repair",
+            "Receipts",
+            "Messages to the landlord confirming the issue stopped"
+          ],
+          "evidence_key": "photos_video",
+          "examples": []
+        },
+        {
+          "id": "household_circumstances",
+          "tab_name": "Household Circumstances",
+          "label": "Your household circumstances (section 83)",
+          "why": "The Board considers whether evicting you would be unfair, for example because of children, disability or how long you have lived there.",
+          "documents": [
+            "Medical or disability letters",
+            "Proof of benefits",
+            "Records of your housing search"
+          ],
+          "evidence_key": "benefit_records",
+          "examples": []
+        }
+      ]
+    },
+    "N12": {
+      "label": "N12 / L2 – Landlord or family wants to move in",
+      "board_decides": [
+        "Does the landlord (or a family member, or a purchaser) in good faith need the unit to live in for at least one year?",
+        "Was the tenant paid the compensation the Act requires (one month's rent) by the termination date?",
+        "Under section 83, whether to delay or refuse the eviction."
+      ],
+      "items": [
+        {
+          "id": "good_faith",
+          "tab_name": "Evidence on the Landlord's Good Faith",
+          "label": "Evidence that questions the landlord's good faith",
+          "why": "The Board looks at whether the landlord genuinely intends to move in. Re-listing the unit, demands for a rent increase or earlier attempts to end the tenancy can cast doubt on that.",
+          "documents": [
+            "Online listings of the unit",
+            "Messages about raising the rent",
+            "Earlier notices or applications"
+          ],
+          "evidence_key": "written_requests",
+          "examples": [
+            {
+              "file_number": "LTB-T-031022-24",
+              "citation": "LTB-T-031022-24",
+              "date": "2026-07-27",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014lnc5IAA/LTB-T-031022-24-HR%20-%20July%2027%202026.pdf",
+              "excerpt": "whether there was good faith at the time the N12 was served. 19."
+            },
+            {
+              "file_number": "LTB-L-014465-26",
+              "citation": "LTB-L-014465-26",
+              "date": "2026-07-22",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014M8FTIA0/LTB-L-014465-26-HR.pdf",
+              "excerpt": "Landlord has a good faith intention to reside in the rental unit for the purpose of residential occupation."
+            }
+          ]
+        },
+        {
+          "id": "compensation",
+          "tab_name": "N12 Compensation",
+          "label": "Whether you received one month's rent as compensation",
+          "why": "An N12 eviction order requires the compensation to have been paid by the termination date.",
+          "documents": [
+            "Bank statement or receipt showing the payment, or its absence"
+          ],
+          "evidence_key": "bank_records",
+          "examples": []
+        },
+        {
+          "id": "time_to_move",
+          "tab_name": "Household Circumstances",
+          "label": "What you need in order to move",
+          "why": "Members often delay N12 evictions to give a family time to find housing. Explain your situation and bring proof of your housing search.",
+          "documents": [
+            "Records of your housing search",
+            "School or medical constraints"
+          ],
+          "evidence_key": "benefit_records",
+          "examples": []
+        }
+      ]
+    },
+    "T2": {
+      "label": "T2 – Tenant's rights (interference, harassment, illegal entry)",
+      "board_decides": [
+        "Did the landlord do what you allege, under section 29 of the Act?",
+        "If so, what remedy is fair: rent abatement, out-of-pocket costs, an order to stop, or a fine."
+      ],
+      "items": [
+        {
+          "id": "incident_log",
+          "tab_name": "Incident Log",
+          "label": "A dated log of each incident",
+          "why": "T2 applications turn on specific incidents. Members weigh dates, details and whether the record was made at the time.",
+          "documents": [
+            "Timeline with date, time, what happened, who was there"
+          ],
+          "evidence_key": "written_requests",
+          "examples": []
+        },
+        {
+          "id": "communications",
+          "tab_name": "Communications with Landlord",
+          "label": "Messages, notices and letters",
+          "why": "Written communication shows what the landlord said and did, and when.",
+          "documents": [
+            "Texts and emails",
+            "Notices of entry (or the lack of them)",
+            "Letters"
+          ],
+          "evidence_key": "written_requests",
+          "examples": []
+        },
+        {
+          "id": "losses",
+          "tab_name": "Losses and Expenses",
+          "label": "What it cost you",
+          "why": "Abatements and costs need a number. Receipts and a short calculation help the member award an amount.",
+          "documents": [
+            "Receipts",
+            "A calculation of the abatement you are asking for"
+          ],
+          "evidence_key": "bank_records",
+          "examples": []
+        }
+      ]
+    },
+    "T6": {
+      "label": "T6 – Maintenance and repairs",
+      "board_decides": [
+        "Did the landlord fail to meet maintenance obligations or health, safety and housing standards?",
+        "Did the landlord know about the problem, and how long did it last?",
+        "What remedy fits: rent abatement, repairs ordered, costs."
+      ],
+      "items": [
+        {
+          "id": "notice_to_landlord",
+          "tab_name": "Repair Requests to Landlord",
+          "label": "Proof you told the landlord about each problem",
+          "why": "Members look at when the landlord knew. Dated written requests are the clearest proof.",
+          "documents": [
+            "Emails, texts, letters or work-order requests, with dates"
+          ],
+          "evidence_key": "written_requests",
+          "examples": []
+        },
+        {
+          "id": "condition_evidence",
+          "tab_name": "Photos of Unit Conditions",
+          "label": "Photos, videos and reports showing the problem",
+          "why": "Dated photos and inspection reports (for example a municipal property standards order) show what the problem was and how long it lasted.",
+          "documents": [
+            "Dated photos or videos",
+            "Municipal inspection reports",
+            "Technician reports"
+          ],
+          "evidence_key": "photos_video",
+          "examples": []
+        },
+        {
+          "id": "abatement",
+          "tab_name": "Abatement and Costs",
+          "label": "How much rent abatement you are asking for, and why",
+          "why": "Abatement is usually a share of rent for the period the problem lasted. Show the period, the share you ask for, and any receipts.",
+          "documents": [
+            "A calculation",
+            "Receipts for repairs or replacement items"
+          ],
+          "evidence_key": "bank_records",
+          "examples": [
+            {
+              "file_number": "LTB-T-015201-25",
+              "citation": "2026 ONLTB 54322",
+              "date": "2026-07-23",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014BOh0IAG/LTB-T-015201-25%20and%20LTB-T-027528-25%20-%20July%2023%202026.pdf",
+              "excerpt": "At the hearing, the Tenant indicated he sought only a $2,150.00 abatement in respect of the T6 Application (as opposed to the $5,375.00 abatement in the application)."
+            },
+            {
+              "file_number": "LTB-T-025507-25",
+              "citation": "2026 ONLTB 56160",
+              "date": "2026-07-23",
+              "url": "https://d3hf2qahezjxpx.cloudfront.net/attachments/exportedBinaries20260928_143512/069N3000014OyxwIAC/LTB-T-025507-25-HR%20-%20July%2023%202026%20%20cert.pdf",
+              "excerpt": "The Landlord also sought to have the T6 application dismissed as there said the allegations were too vague, did not include specific dates and the Tenant sought a rent abatement under Remedy 9 instead"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

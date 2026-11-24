@@ -1273,6 +1273,46 @@
   }
   .feedback-prompt textarea:focus { outline: none; border-color: var(--navy); }
   .feedback-sent { font-size: 0.85rem; color: var(--success); font-weight: 500; margin-top: 8px; }
+
+  /* REAL-ORDER GUIDANCE + HEARING PREP (v2.2) */
+  .g-decides { margin: 0 0 14px; padding-left: 18px; font-size: 0.85rem; color: var(--text); line-height: 1.55; }
+  .g-item { border-top: 1px solid var(--border); padding: 12px 0; }
+  .g-item:first-of-type { border-top: none; }
+  .g-item-title { font-weight: 600; color: var(--navy); font-size: 0.92rem; margin-bottom: 4px; }
+  .g-item-why { font-size: 0.84rem; color: var(--text); line-height: 1.55; margin-bottom: 6px; }
+  .g-docs { margin: 4px 0 6px; padding-left: 18px; font-size: 0.82rem; color: var(--text-light); line-height: 1.5; }
+  .g-ex { margin-top: 6px; padding: 8px 10px; background: white; border-left: 3px solid var(--navy-light); border-radius: 4px; font-size: 0.8rem; line-height: 1.5; color: var(--text); }
+  .g-ex a { color: var(--navy); font-weight: 600; text-decoration: none; }
+  .g-ex a:hover, .g-ex a:focus-visible { text-decoration: underline; }
+  .g-ex-meta { color: var(--text-light); font-size: 0.75rem; }
+  .g-source { font-size: 0.72rem; color: var(--text-light); margin-top: 10px; }
+  .similar-box { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border); }
+  .similar-row { display: flex; gap: 8px; margin-top: 6px; }
+  .similar-row input { flex: 1; }
+  .prep-card { margin-top: 18px; border: 1px solid var(--border); border-radius: var(--radius); background: #fcfdfe; }
+  .prep-card > summary { cursor: pointer; padding: 14px 18px; font-family: 'Source Serif 4', serif; font-weight: 600; color: var(--navy); font-size: 0.98rem; list-style: none; }
+  .prep-card > summary::-webkit-details-marker { display: none; }
+  .prep-card > summary::before { content: '▸ '; }
+  .prep-card[open] > summary::before { content: '▾ '; }
+  .prep-body { padding: 0 18px 16px; }
+  .prep-intro { font-size: 0.82rem; color: var(--text-light); line-height: 1.55; margin-bottom: 10px; }
+  .prep-sec { border-top: 1px solid var(--border); padding: 12px 0 4px; }
+  .prep-sec h5 { margin: 0 0 4px; font-size: 0.9rem; color: var(--navy); }
+  .prep-sec .hint { font-size: 0.78rem; color: var(--text-light); margin-bottom: 8px; line-height: 1.5; }
+  .prep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin-bottom: 8px; }
+  .prep-grid input, .prep-grid select, .prep-field input, .prep-sec textarea { width: 100%; font: inherit; font-size: 0.85rem; padding: 8px 10px; border: 1.5px solid var(--border); border-radius: 6px; background: white; }
+  .prep-sec textarea { min-height: 64px; resize: vertical; }
+  .prep-sec label.inline { display: flex; gap: 6px; align-items: center; font-size: 0.84rem; margin: 3px 0; text-transform: none; letter-spacing: normal; font-weight: 400; color: var(--text); }
+  .prep-field { display: flex; flex-direction: column; gap: 3px; }
+  .prep-field > span { font-size: 0.72rem; font-weight: 600; color: var(--text-light); }
+  .prep-list-row { display: grid; grid-template-columns: 2fr 1fr 1.4fr 0.8fr auto; gap: 6px; margin-bottom: 6px; }
+  .prep-money-row { display: grid; grid-template-columns: 2fr 1fr auto; gap: 6px; margin-bottom: 6px; }
+  .prep-list-row input, .prep-money-row input { font: inherit; font-size: 0.83rem; padding: 7px 9px; border: 1.5px solid var(--border); border-radius: 6px; min-width: 0; }
+  .btn-mini { font: inherit; font-size: 0.78rem; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: white; cursor: pointer; color: var(--navy); }
+  .btn-mini:hover, .btn-mini:focus-visible { border-color: var(--navy-light); }
+  .plan-preview { margin-top: 8px; padding: 10px 12px; background: rgba(26,58,92,0.04); border-radius: 6px; font-size: 0.83rem; line-height: 1.6; }
+  .plan-warn { color: #8a4b00; margin-top: 4px; }
+  @media (max-width: 640px) { .prep-list-row { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
@@ -1406,22 +1446,92 @@
           <input type="text" id="respondent-address" placeholder="Street, City, Province, Postal Code">
         </div>
         <div class="form-group full" style="margin-top: 8px;">
-          <label>Case Type (Informational)</label>
+          <label>Case Type</label>
           <select id="case-type" onchange="onCaseTypeChange(this.value)">
             <option value="">— Select case type —</option>
-            <option value="N4">N4 - Non-payment of rent</option>
-            <option value="N5">N5 - Notice to end tenancy</option>
+            <option value="N4">N4 / L1 - Landlord says rent is owed</option>
+            <option value="N5">N5 / L2 - Interference or damage</option>
+            <option value="N12">N12 / L2 - Landlord or family moving in</option>
+            <option value="T2">T2 - Tenant's rights (harassment, interference)</option>
+            <option value="T6">T6 - Maintenance and repairs</option>
           </select>
         </div>
       </div>
       <div class="evidence-stats-panel" id="evidence-stats-panel">
-        <h4>Evidence Checklist: What Adjudicators Commonly See in <span id="evidence-case-label">N4</span> Cases</h4>
-        <div class="evidence-stats-note">Based on analysis of LTB decisions. Use this as a checklist when gathering your documents — and use these category names to label your tabs in Step 3.</div>
+        <h4>What to prepare for <span id="evidence-case-label">N4</span></h4>
+        <div class="evidence-stats-note">Built from real Landlord and Tenant Board orders. Each point links to orders where it mattered. General information, not legal advice.</div>
         <div id="evidence-stats-list"></div>
         <div class="suggestion-chips" id="suggestion-chips">
           <div class="suggestion-chips-label">Quick-add suggested tab names →</div>
         </div>
+        <div class="similar-box">
+          <label for="similar-q" style="font-size:0.85rem;font-weight:600;color:var(--navy);">Find similar real LTB orders</label>
+          <div class="similar-row">
+            <input type="text" id="similar-q" placeholder="A few words about your situation, e.g. payment plan ODSP children">
+            <button class="btn-mini" type="button" onclick="findSimilarOrders()">Search</button>
+          </div>
+          <div id="similar-results"></div>
+        </div>
       </div>
+
+      <details class="prep-card" id="prep-card" style="display:none;">
+        <summary>Prepare hearing documents (optional)</summary>
+        <div class="prep-body">
+          <div class="prep-intro">Fill in what applies. Each section becomes a page at the front of your brief, as its own tab, so your evidence tabs are numbered after these pages.</div>
+
+          <div class="prep-sec" id="prep-s82">
+            <h5>Repair issues to raise at a rent arrears hearing (section 82)</h5>
+            <div class="hint">List each problem. You must give this to the landlord and the LTB in writing before the hearing (the Notice of Hearing says at least 7 days), with copies of your evidence.</div>
+            <div id="s82-rows"></div>
+            <button class="btn-mini" type="button" onclick="addS82Row()">+ Add issue</button>
+            <div class="prep-grid" style="margin-top:10px;">
+              <label class="prep-field"><span>Date given to landlord and LTB</span><input type="date" id="s82-served-on"></label>
+              <label class="prep-field"><span>How you gave it</span><input type="text" id="s82-served-how" placeholder="Email, LTB portal…"></label>
+            </div>
+            <textarea id="s82-remedy" placeholder="What you are asking for (e.g. rent abatement of 20% from December)"></textarea>
+          </div>
+
+          <div class="prep-sec" id="prep-plan">
+            <h5>Payment plan</h5>
+            <div class="hint">Members often refuse a payment plan that is not backed by proof of income and expenses. List what comes in and goes out each month, including rent.</div>
+            <div class="prep-grid">
+              <label class="prep-field"><span>Arrears + costs claimed ($)</span><input type="number" min="0" step="0.01" id="pp-arrears" oninput="schedulePlanPreview()"></label>
+              <label class="prep-field"><span>Monthly rent ($)</span><input type="number" min="0" step="0.01" id="pp-rent" oninput="schedulePlanPreview()"></label>
+              <label class="prep-field"><span>Toward arrears / month ($)</span><input type="number" min="0" step="0.01" id="pp-offer" placeholder="Blank = all of what is left" oninput="schedulePlanPreview()"></label>
+              <label class="prep-field"><span>First payment date</span><input type="date" id="pp-start" oninput="schedulePlanPreview()"></label>
+            </div>
+            <div style="font-size:0.8rem;font-weight:600;margin:6px 0 4px;">Monthly income</div>
+            <div id="pp-incomes"></div>
+            <button class="btn-mini" type="button" onclick="addMoneyRow('pp-incomes')">+ Income</button>
+            <div style="font-size:0.8rem;font-weight:600;margin:10px 0 4px;">Monthly expenses (include rent)</div>
+            <div id="pp-expenses"></div>
+            <button class="btn-mini" type="button" onclick="addMoneyRow('pp-expenses')">+ Expense</button>
+            <div class="prep-grid" style="margin-top:10px;">
+              <input type="text" id="pp-docs-tab" placeholder="Where your proof is (e.g. Tab 6)">
+            </div>
+            <textarea id="pp-explanation" placeholder="Why the arrears happened and what has changed"></textarea>
+            <div class="plan-preview" id="pp-preview">Enter the arrears and your budget to see a schedule.</div>
+          </div>
+
+          <div class="prep-sec" id="prep-circ">
+            <h5>Your circumstances (section 83)</h5>
+            <div class="hint">The Board considers these when deciding whether to refuse or delay an eviction.</div>
+            <div id="circ-checks"></div>
+            <div class="prep-grid" style="margin-top:8px;">
+              <input type="text" id="circ-since" placeholder="Living in the unit since (year)">
+              <select id="circ-relief" onchange="document.getElementById('circ-until').style.display = this.value==='postpone' ? '' : 'none'">
+                <option value="">What are you asking for?</option>
+                <option value="refuse">Refuse the eviction</option>
+                <option value="payment_plan">Refuse it, on a payment plan</option>
+                <option value="postpone">Delay it so we can move</option>
+              </select>
+              <input type="date" id="circ-until" style="display:none;" aria-label="Delay the eviction until" title="Delay the eviction until">
+              <input type="text" id="circ-docs-tab" placeholder="Where your proof is (e.g. Tab 7)">
+            </div>
+            <textarea id="circ-statement" placeholder="In your own words: your household and why eviction would be unfair"></textarea>
+          </div>
+        </div>
+      </details>
     </div>
     <div class="btn-row">
       <button class="btn btn-primary" onclick="nextFromStep0()">Next: Upload Photos →</button>
@@ -1721,7 +1831,7 @@
     <p>LTB hearings can be stressful and unfamiliar for tenants who are representing themselves. Organizing evidence in a format adjudicators expect — and knowing how to present it confidently — makes a real difference. We built Housekeeper to lower that barrier.</p>
     <h3>How It Works</h3>
     <ul>
-      <li>Enter your case information and case type (N4/N5)</li>
+      <li>Enter your case information and case type (N4, N5, N12, T2 or T6)</li>
       <li>Upload your evidence files in any common format</li>
       <li>Organize files into labelled tabs matching evidence categories</li>
       <li>Redact any sensitive information before generating</li>
@@ -1876,10 +1986,23 @@ function toggleInfoBox(id) {
   document.getElementById(id).classList.toggle('open');
 }
 
+let ltbGuidanceCache = null;
+
+function escHtml(str) {
+  return String(str == null ? '' : str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderExample(ex) {
+  const link = ex.url ? `<a href="${escHtml(ex.url)}" target="_blank" rel="noopener">${escHtml(ex.file_number)}</a>` : escHtml(ex.file_number);
+  return `<div class="g-ex">“${escHtml(ex.excerpt)}”<div class="g-ex-meta">${link}${ex.date ? ' · ' + escHtml(ex.date) : ''}</div></div>`;
+}
+
 async function onCaseTypeChange(caseType) {
   const panel = document.getElementById('evidence-stats-panel');
   const speech = document.getElementById('speech-0');
   suggestedTabNames = [];
+  document.getElementById('similar-results').innerHTML = '';
+  setupPrepSections(caseType);
 
   if (!caseType) {
     panel.classList.remove('visible');
@@ -1888,58 +2011,187 @@ async function onCaseTypeChange(caseType) {
     return;
   }
 
-  // N5 — under construction
-  if (caseType === 'N5') {
-    panel.classList.add('visible');
-    document.getElementById('evidence-case-label').textContent = 'N5 (Notice to End Tenancy)';
-    document.getElementById('evidence-stats-list').innerHTML = `
-      <div style="text-align:center;padding:28px 16px;color:var(--text-light);">
-        <div style="font-size:2rem;margin-bottom:10px;">🚧</div>
-        <div style="font-weight:600;color:var(--navy);margin-bottom:6px;">N5 Evidence Checklist — Coming Soon</div>
-        <div style="font-size:0.85rem;line-height:1.6;">We're still building the N5 statistics module.<br>
-        You can still create and organize your evidence tabs below — just name them manually for now.</div>
-      </div>`;
-    document.getElementById('suggestion-chips').innerHTML = '';
-    speech.innerHTML = '<strong>N5 case selected.</strong> Our N5 evidence statistics module is still under construction — stay tuned! In the meantime, you can still build your evidence brief as usual.';
-    updateStep3SuggestionPanel();
-    return;
-  }
-
-  if (!evidenceStatsCache) {
+  if (!ltbGuidanceCache) {
     try {
-      const res = await fetch('/evidence-stats');
-      evidenceStatsCache = await res.json();
+      const res = await fetch('/ltb-guidance');
+      ltbGuidanceCache = await res.json();
     } catch (e) {
-      console.error('Failed to load evidence stats:', e);
+      console.error('Failed to load LTB guidance:', e);
       panel.classList.remove('visible');
       return;
     }
   }
 
-  const stats = evidenceStatsCache[caseType];
-  if (!stats) { panel.classList.remove('visible'); return; }
+  const block = (ltbGuidanceCache.case_types || {})[caseType];
+  if (!block) { panel.classList.remove('visible'); return; }
 
-  speech.innerHTML = '<strong>Great choice!</strong> Use the checklist below as a guide when gathering your documents — then name your tabs accordingly in Step 3.';
+  speech.innerHTML = '<strong>Great choice!</strong> Below is what the Board looks at in these cases, with real orders. Gather the documents, then name your tabs in Step 3.';
+  document.getElementById('evidence-case-label').textContent = block.label;
 
-  document.getElementById('evidence-case-label').textContent =
-    caseType + ' (' + stats.description + ')';
-
+  const decides = (block.board_decides || []).map(d => `<li>${escHtml(d)}</li>`).join('');
+  const items = (block.items || []).map(it => `
+    <div class="g-item">
+      <div class="g-item-title">${escHtml(it.label)}</div>
+      <div class="g-item-why">${escHtml(it.why)}</div>
+      ${(it.documents || []).length ? '<ul class="g-docs">' + it.documents.map(d => `<li>${escHtml(d)}</li>`).join('') + '</ul>' : ''}
+      ${(it.examples || []).map(renderExample).join('')}
+    </div>`).join('');
   document.getElementById('evidence-stats-list').innerHTML =
-    stats.evidence_types.map(ev => `
-      <div class="evidence-stat-row">
-        <div class="evidence-stat-pct">${ev.percentage}%</div>
-        <div class="evidence-stat-bar">
-          <div class="evidence-stat-bar-fill" style="width:${ev.percentage}%"></div>
-        </div>
-        <div class="evidence-stat-label">${ev.category}</div>
-      </div>`).join('');
+    `<div style="font-size:0.8rem;font-weight:600;color:var(--navy);margin-bottom:4px;">What the Board decides</div><ul class="g-decides">${decides}</ul>${items}
+     <div class="g-source">${escHtml(ltbGuidanceCache.source || '')}</div>`;
 
-  // Build suggestion chips from evidence category names
-  suggestedTabNames = stats.evidence_types.map(ev => ev.category);
+  suggestedTabNames = (block.items || []).map(it => it.tab_name).filter(Boolean)
+    .filter((v, i, a) => a.indexOf(v) === i);
   renderSuggestionChips();
   updateStep3SuggestionPanel();
-
   panel.classList.add('visible');
+}
+
+async function findSimilarOrders() {
+  const caseType = document.getElementById('case-type').value || 'N4';
+  const q = document.getElementById('similar-q').value;
+  const box = document.getElementById('similar-results');
+  box.innerHTML = '<div class="g-source">Searching…</div>';
+  try {
+    const res = await fetch('/similar?type=' + encodeURIComponent(caseType) + '&q=' + encodeURIComponent(q));
+    const data = await res.json();
+    if (!data.results || !data.results.length) {
+      box.innerHTML = '<div class="g-source">No matching orders found. Try fewer or different words.</div>';
+      return;
+    }
+    const note = data.source === 'live'
+      ? 'Live results from A2AJ. Read the full order before relying on it.'
+      : 'The live search is unavailable, so these are saved examples.';
+    box.innerHTML = data.results.map(renderExample).join('') + `<div class="g-source">${note}</div>`;
+  } catch (e) {
+    box.innerHTML = '<div class="g-source">Search failed. Please try again.</div>';
+  }
+}
+
+// ─── HEARING PREP ────────────────────────────────────────────────────────────
+const CIRC_OPTIONS = [
+  ['children', 'Children live in the unit'],
+  ['disability_health', 'Disability or health condition in the household'],
+  ['benefits_income', 'Income from ODSP, Ontario Works or other benefits'],
+  ['job_loss', 'Recent loss of job or income'],
+  ['long_tenancy', 'Long tenancy'],
+  ['senior', 'Senior in the household'],
+  ['housing_search', 'Searching for other housing'],
+  ['landlord_breach', 'Landlord has not kept the unit in good repair'],
+];
+
+function setupPrepSections(caseType) {
+  const card = document.getElementById('prep-card');
+  const isTenantApp = caseType === 'T2' || caseType === 'T6';
+  card.style.display = caseType && !isTenantApp ? '' : 'none';
+  document.getElementById('prep-s82').style.display = caseType === 'N4' ? '' : 'none';
+  document.getElementById('prep-plan').style.display = caseType === 'N4' ? '' : 'none';
+  const checks = document.getElementById('circ-checks');
+  if (!checks.dataset.ready) {
+    checks.innerHTML = CIRC_OPTIONS.map(([k, label]) =>
+      `<label class="inline"><input type="checkbox" value="${k}"> ${escHtml(label)}</label>`).join('');
+    checks.dataset.ready = '1';
+  }
+  if (!document.querySelector('#s82-rows .prep-list-row')) addS82Row();
+  if (!document.querySelector('#pp-incomes .prep-money-row')) addMoneyRow('pp-incomes');
+  if (!document.querySelector('#pp-expenses .prep-money-row')) addMoneyRow('pp-expenses', 'Rent');
+}
+
+function addS82Row() {
+  const row = document.createElement('div');
+  row.className = 'prep-list-row';
+  row.innerHTML = `<input type="text" placeholder="Issue (e.g. no heat in bedroom)" data-k="issue">
+    <input type="text" placeholder="Started (date)" data-k="started">
+    <input type="text" placeholder="Reported to landlord (date, how)" data-k="reported">
+    <input type="text" placeholder="Evidence tab" data-k="evidence_tab">
+    <button class="btn-mini" type="button" aria-label="Remove issue" onclick="this.parentNode.remove()">✕</button>`;
+  document.getElementById('s82-rows').appendChild(row);
+}
+
+function addMoneyRow(containerId, label) {
+  const row = document.createElement('div');
+  row.className = 'prep-money-row';
+  row.innerHTML = `<input type="text" placeholder="${containerId === 'pp-incomes' ? 'Source (e.g. wages, ODSP)' : 'Expense (e.g. food)'}" data-k="label" value="${escHtml(label || '')}" oninput="schedulePlanPreview()">
+    <input type="number" min="0" step="0.01" placeholder="$ / month" data-k="amount" oninput="schedulePlanPreview()">
+    <button class="btn-mini" type="button" aria-label="Remove" onclick="this.parentNode.remove(); schedulePlanPreview()">✕</button>`;
+  document.getElementById(containerId).appendChild(row);
+}
+
+function readRows(selector) {
+  return Array.from(document.querySelectorAll(selector)).map(row => {
+    const o = {};
+    row.querySelectorAll('input').forEach(i => { o[i.dataset.k] = i.value.trim(); });
+    return o;
+  });
+}
+
+function collectPlan() {
+  return {
+    arrears: document.getElementById('pp-arrears').value,
+    monthly_rent: document.getElementById('pp-rent').value,
+    proposed_monthly: document.getElementById('pp-offer').value,
+    start_date: document.getElementById('pp-start').value,
+    incomes: readRows('#pp-incomes .prep-money-row').filter(r => r.amount),
+    expenses: readRows('#pp-expenses .prep-money-row').filter(r => r.amount),
+    documents_tab: document.getElementById('pp-docs-tab').value.trim(),
+    explanation: document.getElementById('pp-explanation').value.trim(),
+  };
+}
+
+let _planTimer = null;
+function schedulePlanPreview() {
+  clearTimeout(_planTimer);
+  _planTimer = setTimeout(updatePlanPreview, 300);
+}
+
+async function updatePlanPreview() {
+  const box = document.getElementById('pp-preview');
+  const plan = collectPlan();
+  if (!plan.arrears) { box.textContent = 'Enter the arrears and your budget to see a schedule.'; return; }
+  try {
+    const res = await fetch('/payment-plan', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(plan) });
+    const p = await res.json();
+    const money = v => '$' + Number(v || 0).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    let html = `Income ${money(p.total_income)} − expenses ${money(p.total_expenses)} = <strong>${money(p.surplus)}</strong> left each month.`;
+    if (p.months) html += `<br>Paying <strong>${money(p.proposed_monthly)}</strong> a month clears ${money(p.arrears)} in <strong>${p.months} month${p.months === 1 ? '' : 's'}</strong> (last payment ${escHtml(p.schedule[p.schedule.length - 1].due)}).`;
+    html += (p.warnings || []).map(w => `<div class="plan-warn">⚠ ${escHtml(w)}</div>`).join('');
+    box.innerHTML = html;
+  } catch (e) {
+    box.textContent = 'Could not calculate the plan.';
+  }
+}
+
+function collectHearingPrep() {
+  const caseType = document.getElementById('case-type').value;
+  if (!caseType || caseType === 'T2' || caseType === 'T6') return null;
+  const prep = {};
+  if (caseType === 'N4') {
+    prep.s82 = {
+      issues: readRows('#s82-rows .prep-list-row').filter(r => r.issue),
+      served_on: document.getElementById('s82-served-on').value,
+      served_how: document.getElementById('s82-served-how').value.trim(),
+      remedy: document.getElementById('s82-remedy').value.trim(),
+    };
+    prep.payment_plan = collectPlan();
+  }
+  const relief = document.getElementById('circ-relief').value;
+  prep.circumstances = {
+    checked: Array.from(document.querySelectorAll('#circ-checks input:checked')).map(i => i.value),
+    tenancy_since: document.getElementById('circ-since').value.trim(),
+    relief: relief,
+    postpone_until: relief === 'postpone' ? document.getElementById('circ-until').value : '',
+    documents_tab: document.getElementById('circ-docs-tab').value.trim(),
+    statement: document.getElementById('circ-statement').value.trim(),
+  };
+  return prep;
+}
+
+function hearingPrepHasContent(prep) {
+  if (!prep) return false;
+  const s82 = prep.s82 && prep.s82.issues && prep.s82.issues.length;
+  const plan = prep.payment_plan && Number(prep.payment_plan.arrears) > 0;
+  const c = prep.circumstances || {};
+  return Boolean(s82 || plan || (c.checked && c.checked.length) || c.statement || c.relief);
 }
 
 function renderSuggestionChips() {
@@ -2687,7 +2939,8 @@ async function saveRedaction() {
 
 // ─── GENERATE PDF ────────────────────────────────────────────────────────────
 async function generatePDF() {
-  if (tabs.length === 0) { notify('Add at least one tab first.', true); return; }
+  const hearingPrep = collectHearingPrep();
+  if (tabs.length === 0 && !hearingPrepHasContent(hearingPrep)) { notify('Add at least one tab first.', true); return; }
 
   const btn = document.getElementById('generate-btn');
   const spinner = document.getElementById('spinner');
@@ -2722,6 +2975,7 @@ async function generatePDF() {
       images: t.imageIds,
     })),
     preview_pages: previewPagesPayload,
+    hearing_prep: hearingPrep,
   };
 
   try {

@@ -22,6 +22,10 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
 from reportlab.pdfgen import canvas
 from reportlab.platypus.flowables import Flowable
+import urllib.parse
+import urllib.request
+
+import hearing_prep
 
 # Optional text-extraction dependencies (app works without them)
 try:
@@ -663,6 +667,12 @@ def _build_story(case_info, tabs_data, usable_w, usable_h,
         ))
         story.append(PageBreak())
 
+        # Hearing-prep documents built from the tenant's answers (no uploads)
+        if tab.get('generated'):
+            story.extend(hearing_prep.generated_flowables(tab['generated'], case_info, usable_w))
+            story.append(PageBreak())
+            continue
+
         files = tab.get('images', [])
         if not files:
             story.append(Spacer(1, 2 * inch))
@@ -900,6 +910,90 @@ def evidence_stats():
     return jsonify(DEFAULT_EVIDENCE_STATS)
 
 
+# ─── LTB GUIDANCE (real orders) ────────────────────────────────────────────────
+
+GUIDANCE_PATH = os.path.join(os.path.dirname(__file__), 'ltb_guidance.json')
+
+
+def _load_guidance():
+    try:
+        with open(GUIDANCE_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except (IOError, json.JSONDecodeError):
+        return {"version": 2, "case_types": {}}
+
+
+@app.route('/ltb-guidance')
+def ltb_guidance():
+    """Evidence checklist per case type, with links to real LTB orders."""
+    return jsonify(_load_guidance())
+
+
+# Phrases that pick out each case type in LTB order text (A2AJ full-text search)
+SIMILAR_BASE = {
+    'N4': '"did not pay the rent"',
+    'N5': '"substantially interfered"',
+    'N12': '"N12"',
+    'T2': '"T2"',
+    'T6': '"T6"',
+}
+A2AJ_API = os.environ.get('A2AJ_API', 'https://api.a2aj.ca')
+
+
+def _similar_query(case_type, keywords):
+    words = [w for w in (keywords or '').replace('"', ' ').split() if len(w) > 2][:6]
+    base = SIMILAR_BASE.get(case_type, '"Residential Tenancies Act"')
+    if not words:
+        return base
+    return base + ' AND (' + ' OR '.join(words) + ')'
+
+
+@app.route('/similar')
+def similar_orders():
+    """Find real LTB orders similar to the user's situation via the A2AJ API.
+
+    Falls back to the curated examples in ltb_guidance.json when the API cannot
+    be reached, so the panel always has something useful to show.
+    """
+    case_type = request.args.get('type', 'N4').upper()
+    keywords = request.args.get('q', '')[:200]
+    query = _similar_query(case_type, keywords)
+    params = {'query': query, 'doc_type': 'cases', 'dataset': 'ONLTB',
+              'size': 6, 'search_type': 'full_text', 'search_language': 'en'}
+    url = A2AJ_API + '/search?' + urllib.parse.urlencode(params)
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Housekeeper/2.2'})
+        with urllib.request.urlopen(req, timeout=8) as r:
+            raw = json.loads(r.read().decode('utf-8'))
+        results = []
+        for x in raw.get('results', [])[:6]:
+            snippet = (x.get('snippet') or '').replace('<em>', '').replace('</em>', '')
+            results.append({
+                'file_number': x.get('citation2_en') or x.get('citation_en'),
+                'date': (x.get('document_date_en') or '')[:10],
+                'url': x.get('url_en'),
+                'excerpt': ' '.join(snippet.split())[:320],
+            })
+        return jsonify({'source': 'live', 'query': query, 'results': results})
+    except Exception as e:  # network or API error: fall back to curated examples
+        logging.info("A2AJ search unavailable: %s", e)
+        block = _load_guidance().get('case_types', {}).get(case_type, {})
+        results = [ex for item in block.get('items', []) for ex in item.get('examples', [])]
+        return jsonify({'source': 'saved', 'query': query, 'results': results[:6]})
+
+
+@app.route('/payment-plan', methods=['POST'])
+def payment_plan_preview():
+    """Live preview of the payment-plan maths used in the brief."""
+    d = request.get_json() or {}
+    try:
+        return jsonify(hearing_prep.payment_plan(
+            d.get('arrears'), d.get('monthly_rent'), d.get('incomes'), d.get('expenses'),
+            d.get('proposed_monthly'), d.get('start_date') or None))
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 400
+
+
 @app.route('/preview-pages/<filename>')
 def preview_pages(filename):
     """Convert any uploaded file to page images for preview/redaction."""
@@ -981,12 +1075,19 @@ def generate():
     preview_pages_map = data.get('preview_pages', {})  # {orig_id: [page_id, ...]}
 
     for tab in tabs_data:
+        tab.pop('generated', None)  # generated pages only come from hearing_prep
         resolved = []
         for img_id in tab.get('images', []):
             path = os.path.join(app.config['UPLOAD_FOLDER'], img_id)
             if os.path.exists(path):
                 resolved.append(path)
         tab['images'] = resolved
+
+    # Hearing-prep pages go in front of the evidence as their own tabs
+    prep_tabs = hearing_prep.build_prep_tabs(data.get('hearing_prep'))
+    tabs_data = prep_tabs + tabs_data
+    if not tabs_data:
+        return jsonify({'error': 'Add at least one tab or hearing-prep page.'}), 400
 
     # Build pre-generated page image mapping from redacted pages
     prebuilt = {}

@@ -14,7 +14,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py evidence_stats.json gunicorn.conf.py ./
+COPY app.py hearing_prep.py evidence_stats.json ltb_guidance.json gunicorn.conf.py ./
 COPY templates/ templates/
 COPY content/ content/
 

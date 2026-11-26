@@ -599,3 +599,10 @@ Output goes to `test_logs/test_run_YYYYMMDD_HHMMSS.json` and `.txt`.
 - Root-level `Dockerfile` added as fallback since Render reads from repo root by default
 - `.gitignore` added to exclude `uploads/`, `__pycache__/`, `.DS_Store`, and Jupyter checkpoints
 - Jupyter notebook intro cell replaced with full how-to-use guide covering: hosted web app (Render link), Colab/ngrok setup, local Python setup, 4-step app workflow, and hearing tips
+
+### v2.2 — Real LTB Orders, Hearing Prep, Similar Orders (Nov 2026)
+- **Checklist built from real orders.** The checklist from 20 ChatGPT-generated orders (`evidence_stats.json`) is replaced by `ltb_guidance.json`, built from real LTB orders in A2AJ Canadian Legal Data. It covers five case types (N4, N5, N12, T2, T6). Each point says what the Board looks at and links to real orders (file number, date, excerpt). Served at `/ltb-guidance`. The old `/evidence-stats` route stays for compatibility.
+- **Hearing-prep pages.** Optional forms in Step 1 for a section 82 issues list, a payment plan (budget, schedule and warnings, previewed live through `/payment-plan`) and section 83 circumstances. Each becomes its own tab at the front of the brief (`hearing_prep.py`). Tabs sent by the client can never contain generated pages.
+- **Similar orders.** `/similar` searches the A2AJ API for LTB orders of the same case type matching the tenant's keywords. If the API cannot be reached, it shows the saved examples.
+- **Data pipeline** in `05.ltb_data/`: a rule-based extractor, fetch/stats scripts for the full ~56,000 orders, and tests on real fixtures.
+- Tests: `04.test/test_real_data_features.py` and `05.ltb_data/test_ltb_extract.py` (38 tests). The original suite still passes (47/47).
